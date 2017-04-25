@@ -1,0 +1,30 @@
+{
+  "entry": "src/index.js",
+  "outputPath": "/Users/niuxianghui/IdeaProjects/ShopsInfoPublicSys/src/main/resources/static",
+  "env": {
+    "development": {
+      "extraBabelPlugins": [
+        "dva-hmr",
+        "transform-runtime"
+      ]
+    },
+    "production": {
+      "extraBabelPlugins": [
+        "transform-runtime",
+        ["import", { "libraryName": "antd", "style": "css" }]
+      ]
+    }
+  },
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:8080",
+      "changeOrigin": true,
+      "pathRewrite": { "" : "" }
+    },
+    "/java": {
+      "target": "http://localhost:8080/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/java" : "" }
+    }
+  }
+}
