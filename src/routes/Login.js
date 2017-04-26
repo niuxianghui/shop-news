@@ -30,6 +30,28 @@ function Login({
       }})
     })
   }
+  function handleOkadmin() {
+    validateFieldsAndScroll((errors, values) => {
+      if (errors) {
+        return
+      }
+      dispatch({ type: "login/adminlogin" , payload: {
+        username: values.username,
+        password: values.password,
+      }})
+    })
+  }
+  function handleOkMerchant() {
+    validateFieldsAndScroll((errors, values) => {
+      if (errors) {
+        return
+      }
+      dispatch({ type: "login/merchantlogin" , payload: {
+        username: values.username,
+        password: values.password,
+      }})
+    })
+  }
   return (
 
     <div className={styles.form}>
@@ -82,7 +104,7 @@ function Login({
                     message: '请填写用户名',
                   },
                 ],
-              })(<Input size="large" onPressEnter={handleOk} placeholder="用户名" />)}
+              })(<Input size="large" onPressEnter={handleOkMerchant} placeholder="用户名" />)}
             </FormItem>
             <FormItem hasFeedback>
               {getFieldDecorator('password', {
@@ -92,10 +114,10 @@ function Login({
                     message: '请填写密码',
                   },
                 ],
-              })(<Input size="large" type="password" onPressEnter={handleOk} placeholder="密码" />)}
+              })(<Input size="large" type="password" onPressEnter={handleOkMerchant} placeholder="密码" />)}
             </FormItem>
             <Row>
-              <Button type="primary" size="large" onClick={handleOk} >
+              <Button type="primary" size="large" onClick={handleOkMerchant} >
                 登录
               </Button>
             </Row>
@@ -115,7 +137,7 @@ function Login({
                     message: '请填写用户名',
                   },
                 ],
-              })(<Input size="large" onPressEnter={handleOk} placeholder="用户名" />)}
+              })(<Input size="large" onPressEnter={handleOkadmin} placeholder="用户名" />)}
             </FormItem>
             <FormItem hasFeedback>
               {getFieldDecorator('password', {
@@ -125,10 +147,10 @@ function Login({
                     message: '请填写密码',
                   },
                 ],
-              })(<Input size="large" type="password" onPressEnter={handleOk} placeholder="密码" />)}
+              })(<Input size="large" type="password" onPressEnter={handleOkadmin} placeholder="密码" />)}
             </FormItem>
             <Row>
-              <Button type="primary" size="large" onClick={handleOk} >
+              <Button type="primary" size="large" onClick={handleOkadmin} >
                 登录
               </Button>
             </Row>

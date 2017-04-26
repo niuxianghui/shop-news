@@ -1,18 +1,31 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './Detail.css';
 
 import 'antd/dist/antd.css';
 import { Layout, Menu, Breadcrumb, Icon, Carousel, Collapse } from 'antd';
 const Panel = Collapse.Panel;
-import { Card, Col, Row, Table, Button } from 'antd';
+import { Card, Col, Row, Table, Button, Popconfirm } from 'antd';
+import MerchatModal from '../components/MerchantModal'
+import styles from './Users.css';
+import GoodModal from '../components/GoodModal'
 
 //评论内容
 const text = `
   白菜好吃、 萝卜好吃、 土豆好吃.
 `;
 
-function Detail({ detail }) {
+function MerchantDetail({ detail, dispatch }) {
+  function editHandler2(id, values) {
+    console.log(id)
+    console.log(values)
+    dispatch({ type: "detail/patchGood", payload: { id, values}})
+  }
+  function deleteHandler(id) {
+    dispatch({ type: "detail/deleteGood", payload: { id }})
+  }
+  function createHandler(id, values) {
+    dispatch({ type: "detail/createGood", payload: { values }})
+  }
   const columns = [{
     title: 'Product Name',
     dataIndex: 'name',
@@ -25,7 +38,23 @@ function Detail({ detail }) {
     title: 'Introduce',
     dataIndex: 'introduction',
     key: 'introduction',
-  }];
+  },
+  {
+    title: 'Operation',
+    key: 'operation',
+    render: (text, record) => (
+      <span className={styles.operation}>
+          <GoodModal record={record} onOk={editHandler2}>
+            <a>Edit</a>
+          </GoodModal>
+          <br/>
+          <Popconfirm title="Confirm to delete?" onConfirm={deleteHandler.bind(null, record.id)}>
+            <a href="">Delete</a>
+          </Popconfirm>
+        </span>
+    ),
+  }
+  ];
 
   const tableProps = {
     columns: columns,
@@ -33,6 +62,15 @@ function Detail({ detail }) {
     onChange() {
 
     }
+  }
+  function editHandler(id, values) {
+    // dispatch({
+    //   type: 'users/patch',
+    //   payload: { id, values },
+    // });
+    dispatch({ type: "detail/patch", payload: {id, values}})
+    console.log(id)
+    console.log(values);
   }
   return(
     <div>
@@ -59,12 +97,21 @@ function Detail({ detail }) {
             <Card title="phone number" bordered={false}>{detail.merchant.phoneNumber}</Card>
           </Col>
         </Row>
+        <br/>
+        <MerchatModal record={detail.merchant} onOk={editHandler}>
+          <Button type="primary">Edit</Button>
+        </MerchatModal>
       </div>
       <br/>
       <br/>
       <br/>
       <h1>商品信息</h1>
       <div>
+        <br/>
+        <GoodModal record={{}} onOk={createHandler}>
+          <Button type="primary">Create</Button>
+        </GoodModal>
+        <br/>
         <Table  {...tableProps}/>
       </div>
       <h1>客户评论</h1>
@@ -87,4 +134,4 @@ function mapStateToProps({ detail }) {
   return { detail };
 }
 
-export default connect(mapStateToProps)(Detail);
+export default connect(mapStateToProps)(MerchantDetail);

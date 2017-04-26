@@ -1,4 +1,6 @@
 import { updateDetail } from '../services/updateDetail'
+import { updateMerchant, updateGood, createGood, deleteGood } from '../services/MerchantDetail'
+
 
 export default {
   namespace: 'detail',
@@ -52,6 +54,29 @@ export default {
       yield put({ type: "updateGood", data: data.data})
       console.log("data:")
       console.log(data)
+    },
+    *patch({ payload: { id, values }}, { call, put, select }) {
+      const data = yield call(updateMerchant, id, values)
+      console.log("data:  ")
+      console.log(data)
+      yield put({ type: "update", payload: data.data.id})
+    },
+    *patchGood({ payload: { id, values }}, { call, put, select}) {
+      console.log("hello")
+      const data = yield call(updateGood, id, values);
+      console.log(data)
+      yield put({ type: 'update', payload: data.data.id});
+    },
+    *createGood({ payload: { values }}, { call, put, select}) {
+      const merchantId = yield select(state => state.detail.merchant.id)
+      values.merchantId = merchantId
+      const data = yield call(createGood, values)
+      yield put({ type: "update", payload: merchantId})
+    },
+    *deleteGood({ payload: {id}}, { call, put, select}) {
+      const merchantId = yield select(state => state.detail.merchant.id)
+      const data = yield call(deleteGood, id)
+      yield put({ type: "update", payload: merchantId})
     },
 
   },

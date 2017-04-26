@@ -1,6 +1,6 @@
 {
   "entry": "src/index.js",
-  "outputPath": "/Users/niuxianghui/IdeaProjects/ShopsInfoPublicSys/src/main/resources/static",
+  "outputPath": "dist",
   "env": {
     "development": {
       "extraBabelPlugins": [
@@ -17,6 +17,11 @@
   },
   "proxy": {
     "/api": {
+      "target": "http://localhost:8080",
+      "changeOrigin": true,
+      "pathRewrite": { "" : "" }
+    },
+    "/image": {
       "target": "http://localhost:8080",
       "changeOrigin": true,
       "pathRewrite": { "" : "" }

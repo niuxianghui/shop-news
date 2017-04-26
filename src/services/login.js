@@ -19,3 +19,28 @@ export async function login(params) {
   return request(api.login, option )
 }
 
+
+export async function adminLogin(params) {
+  const option = {
+    method: "POST",
+    credentials: 'same-origin',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "name=" + params.username + "&&passwd=" + params.password
+  }
+  return request(api.adminLogin, option)
+}
+
+export async function merchantLogin(params) {
+  const option = {
+    method: "POST",
+    credentials: 'same-origin',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: "name=" + params.username + "&&passwd=" + params.password
+  }
+  return request(api.merchantLogin, option)
+}
+
